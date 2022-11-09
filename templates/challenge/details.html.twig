@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+{% block title %}
+    Détails Challenge
+{% endblock %}
+{% block body %}
+    <div class="row text-center mt-5">
+        <h1>
+             Détails Challenge
+        </h1>
+    </div>
+    {% include "helper/_flash.html.twig" %}
+    <div class="row text-center mt-5">
+        <p>Nom: {{challenge.name}}</p>
+        <p>Description: {{challenge.description}}</p>
+        <p>Date défi: {{challenge.startDate|date("d/m/Y H:i")}}</p>
+        <p>Créateur: {{challenge.owner }}</p>
+        <p>Nombre de participants: {{challenge.nbParticipant }}</p>
+    </div>
+{% endblock %}
