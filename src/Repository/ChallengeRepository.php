@@ -30,14 +30,19 @@ class ChallengeRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Challenge $entity, bool $flush = false): void
+    public function remove(int $id, bool $flush = false): void
     {
+        $entity = $this->find($id);
         $this->getEntityManager()->remove($entity);
 
         if ($flush) {
             $this->getEntityManager()->flush();
         }
     }
+    public function update(Challenge $entity): void
+    {
+        $this->getEntityManager()->flush();
+    }    
 
 //    /**
 //     * @return Challenge[] Returns an array of Challenge objects

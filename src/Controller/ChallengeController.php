@@ -38,6 +38,20 @@ class ChallengeController extends AbstractController {
     }
 
     /**
+     * @Route("/challenge/modifier/{id}")
+     */
+    public function update(Challenge $challenge,Request $request,ChallengeRepository $repo):Response{
+        $challengeForm = $this->createForm(ChallengeType::class,$challenge);
+        $challengeForm->handleRequest($request);
+        if($challengeForm->isSubmitted() && $challengeForm->isValid()){
+            $repo->update($challenge);
+            $this->addFlash("success","Le défi a bien été modifié!");
+            return $this->redirectToRoute("app_challenge_detail",["id"=>$challenge->getId()]);
+        }
+        return $this->render("challenge/update.html.twig",[ "challengeForm"=>$challengeForm->createView()]);
+    }
+
+    /**
      * @Route("/challenges")
      */
     public function list(ChallengeRepository $repo):Response{
@@ -45,4 +59,13 @@ class ChallengeController extends AbstractController {
             "challenges"=>$repo->findAll()
         ]);
     } 
+
+    /**
+     * @Route("/challenge/delete")
+     */
+    public function delete(Request $request,ChallengeRepository $repo){
+        $repo->remove($request->request->get("id"),true);
+        $this->addFlash("success","Le défi a bien été supprimé!");
+        return $this->redirectToRoute("app_challenge_list");
+    }
 }
